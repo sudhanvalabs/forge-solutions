@@ -1,0 +1,137 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "operations-admin",
+  "name": "Forge Operations: Admin and legal",
+  "version": "1.0",
+  "description": "Each contract's obligations and renewal dates, read from the contract, with a warning before each one is due.",
+  "family": "operations",
+  "familyName": "Forge Operations",
+  "variant": null,
+  "apps": [
+    {
+      "type": "contract_milestones",
+      "name": "Contract milestones",
+      "kind": "workflow",
+      "description": "Upload contracts and every dated obligation is listed: expiries, payments, renewals and notice windows, each tracked until it is done.",
+      "fields": [
+        {
+          "key": "obligation",
+          "label": "Obligation",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "kind",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "expiry",
+            "payment",
+            "renewal",
+            "notice",
+            "delivery",
+            "compliance",
+            "other"
+          ]
+        },
+        {
+          "key": "counterparty",
+          "label": "Counterparty",
+          "type": "text"
+        },
+        {
+          "key": "due_date",
+          "label": "Due",
+          "type": "date"
+        },
+        {
+          "key": "date_basis",
+          "label": "As written",
+          "type": "text"
+        },
+        {
+          "key": "lead_days",
+          "label": "Warn (days before)",
+          "type": "number"
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "Open",
+            "Needs date",
+            "Done",
+            "Waived"
+          ]
+        },
+        {
+          "key": "confidence",
+          "label": "Confidence",
+          "type": "select",
+          "options": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        {
+          "key": "clause",
+          "label": "Clause",
+          "type": "text"
+        },
+        {
+          "key": "source_doc",
+          "label": "Source",
+          "type": "text"
+        },
+        {
+          "key": "owner",
+          "label": "Owner",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "kind": "contract_milestones",
+        "dueField": "due_date",
+        "statusField": "status",
+        "leadField": "lead_days",
+        "titleField": "obligation",
+        "doneValue": "Done",
+        "closedValues": [
+          "Done",
+          "Waived"
+        ],
+        "guidance": "Extract every dated obligation: expiries (LC, guarantees, insurance, licences), payment milestones, renewal and notice windows, delivery dates, recurring compliance. Keep the contract's own wording for the timing.",
+        "stages": [
+          {
+            "key": "intake",
+            "label": "Upload contract",
+            "capability": "intake"
+          },
+          {
+            "key": "extract",
+            "label": "Extract obligations",
+            "capability": "extract"
+          },
+          {
+            "key": "review",
+            "label": "Review against contract",
+            "capability": "review"
+          },
+          {
+            "key": "track",
+            "label": "Track & remind",
+            "capability": "report"
+          }
+        ]
+      }
+    }
+  ],
+  "forge": {
+    "homePanels": false,
+    "homeCard": false,
+    "daily": false,
+    "onInstall": false
+  }
+}

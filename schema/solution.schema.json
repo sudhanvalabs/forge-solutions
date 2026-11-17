@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Forge solution definition",
+  "type": "object",
+  "required": ["key", "name", "version", "description", "apps"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "key": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+    "name": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+(\\.\\d+)?$" },
+    "description": { "type": "string" },
+    "family": { "type": "string", "description": "Packs of one family install side by side, their apps' names carrying the variant." },
+    "familyName": { "type": ["string", "null"] },
+    "variant": { "type": ["string", "null"] },
+    "excludes": { "type": "array", "items": { "type": "string" } },
+    "apps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type", "name", "kind", "fields"],
+        "properties": {
+          "type": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "name": { "type": "string" },
+          "kind": { "enum": ["register", "workflow", "program"] },
+          "description": { "type": "string" },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["key", "label", "type"],
+              "properties": {
+                "key": { "type": "string" },
+                "label": { "type": "string" },
+                "type": { "enum": ["text", "number", "currency", "date", "select", "bool", "person"] },
+                "required": { "type": "boolean" },
+                "options": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          },
+          "config": { "type": "object", "description": "Rules: stages and closedStages for a workflow; dueField, statusField, leadField and others naming fields." }
+        }
+      }
+    },
+    "seed": { "type": "object", "description": "Records installed with the apps, by app type: content the solution ships, never anyone's data." },
+    "forge": {
+      "type": "object",
+      "description": "Parts still written as code in Forge for this solution (Home panels, the Home card, daily work, install steps).",
+      "properties": {
+        "homePanels": { "type": "boolean" },
+        "homeCard": { "type": "boolean" },
+        "daily": { "type": "boolean" },
+        "onInstall": { "type": "boolean" }
+      }
+    }
+  }
+}

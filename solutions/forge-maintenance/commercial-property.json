@@ -1,0 +1,1129 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "assets_commercial",
+  "name": "Forge Maintenance: Commercial property",
+  "version": "1.1",
+  "description": "For offices, malls and business parks: air conditioning, lifts and escalators, power, fire safety, water and the building itself, with AMC renewals and statutory deadlines.",
+  "family": "assets",
+  "familyName": null,
+  "variant": "Commercial property",
+  "apps": [
+    {
+      "type": "assets_register",
+      "name": "Assets",
+      "kind": "register",
+      "description": "Every maintained asset: where it is, how critical it is, and its AMC.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "Chiller",
+            "Cooling tower",
+            "Air handling unit",
+            "Fan coil units",
+            "VRF system",
+            "Lift",
+            "Escalator",
+            "Building management system",
+            "DG set",
+            "Transformer",
+            "HT/LT panel",
+            "UPS",
+            "Fire pump",
+            "Fire alarm system",
+            "Sprinklers",
+            "Fire extinguishers",
+            "CCTV",
+            "Access control",
+            "Sewage treatment plant",
+            "Water treatment plant",
+            "Booster pump",
+            "Facade and glazing",
+            "Car park equipment",
+            "Building and roof",
+            "Other"
+          ]
+        },
+        {
+          "key": "location",
+          "label": "Location (Building > floor > zone)",
+          "type": "text"
+        },
+        {
+          "key": "criticality",
+          "label": "Criticality",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "In service",
+            "Standby",
+            "Under repair",
+            "Retired"
+          ]
+        },
+        {
+          "key": "make_model",
+          "label": "Make and model",
+          "type": "text"
+        },
+        {
+          "key": "serial",
+          "label": "Serial number",
+          "type": "text"
+        },
+        {
+          "key": "owner",
+          "label": "Responsible",
+          "type": "text"
+        },
+        {
+          "key": "amc_vendor",
+          "label": "AMC vendor",
+          "type": "text"
+        },
+        {
+          "key": "amc_expiry",
+          "label": "AMC expiry",
+          "type": "date"
+        },
+        {
+          "key": "installed_on",
+          "label": "Installed on",
+          "type": "date"
+        },
+        {
+          "key": "specifications",
+          "label": "Specifications",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "name",
+        "listFields": [
+          "asset_id",
+          "name",
+          "type",
+          "location",
+          "criticality",
+          "status",
+          "amc_expiry"
+        ],
+        "defaultSort": "asset_id",
+        "dueField": "amc_expiry",
+        "defaultLeadDays": 60,
+        "statusField": "status",
+        "closedValues": [
+          "Retired"
+        ],
+        "longFields": [
+          "specifications",
+          "notes"
+        ],
+        "pack": "commercial"
+      }
+    },
+    {
+      "type": "assets_plans",
+      "name": "Maintenance plans",
+      "kind": "register",
+      "description": "Each recurring task on each asset: how often, how far ahead, and when it is next due.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "trigger",
+          "label": "Trigger",
+          "type": "select",
+          "options": [
+            "Time",
+            "Usage",
+            "Statutory"
+          ]
+        },
+        {
+          "key": "every",
+          "label": "Every",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "type": "select",
+          "options": [
+            "Days",
+            "Weeks",
+            "Months",
+            "Years",
+            "Run hours",
+            "Cycles",
+            "Placements"
+          ]
+        },
+        {
+          "key": "lead_days",
+          "label": "Raise this many days ahead",
+          "type": "number"
+        },
+        {
+          "key": "wo_type",
+          "label": "Work order type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "assignee",
+          "label": "Assignee",
+          "type": "text"
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "Proposed",
+            "Active",
+            "Paused"
+          ]
+        },
+        {
+          "key": "last_done",
+          "label": "Last done",
+          "type": "date"
+        },
+        {
+          "key": "last_reading",
+          "label": "Meter reading when last done",
+          "type": "number"
+        },
+        {
+          "key": "next_due",
+          "label": "Next due",
+          "type": "date"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "task",
+        "listFields": [
+          "asset_id",
+          "task",
+          "trigger",
+          "every",
+          "unit",
+          "status",
+          "next_due"
+        ],
+        "defaultSort": "next_due",
+        "longFields": [
+          "checklist",
+          "notes"
+        ],
+        "pack": "commercial"
+      }
+    },
+    {
+      "type": "assets_work_orders",
+      "name": "Work orders",
+      "kind": "workflow",
+      "description": "Preventive, breakdown and inspection work, from raised to verified.",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "wo_type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Breakdown",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "due",
+          "label": "Due",
+          "type": "date"
+        },
+        {
+          "key": "assignee",
+          "label": "Assignee",
+          "type": "text"
+        },
+        {
+          "key": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        {
+          "key": "statutory",
+          "label": "Statutory",
+          "type": "bool"
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        },
+        {
+          "key": "result",
+          "label": "Inspection result",
+          "type": "select",
+          "options": [
+            "Pass",
+            "Fail"
+          ]
+        },
+        {
+          "key": "failure_code",
+          "label": "Failure",
+          "type": "select",
+          "options": [
+            "Mechanical",
+            "Electrical",
+            "Air conditioning",
+            "Plumbing",
+            "Control or software",
+            "Leak",
+            "Other"
+          ]
+        },
+        {
+          "key": "cause_code",
+          "label": "Cause",
+          "type": "select",
+          "options": [
+            "Wear",
+            "Missed maintenance",
+            "Misuse",
+            "Power supply",
+            "Vendor delay",
+            "Unknown"
+          ]
+        },
+        {
+          "key": "reported_on",
+          "label": "Reported on",
+          "type": "date"
+        },
+        {
+          "key": "completed_on",
+          "label": "Completed on",
+          "type": "date"
+        },
+        {
+          "key": "downtime_hours",
+          "label": "Downtime (hours)",
+          "type": "number"
+        },
+        {
+          "key": "plan_id",
+          "label": "Plan reference",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "title",
+        "listFields": [
+          "title",
+          "asset_id",
+          "wo_type",
+          "due",
+          "assignee",
+          "priority"
+        ],
+        "defaultSort": "due",
+        "dueField": "due",
+        "closedStages": [
+          "done",
+          "verified"
+        ],
+        "assigneeField": "assignee",
+        "stages": [
+          {
+            "key": "raised",
+            "label": "Raised",
+            "capability": "intake",
+            "actors": [
+              "rules",
+              "person"
+            ]
+          },
+          {
+            "key": "assigned",
+            "label": "Assigned",
+            "capability": "review"
+          },
+          {
+            "key": "in_progress",
+            "label": "In progress",
+            "capability": "review"
+          },
+          {
+            "key": "done",
+            "label": "Done",
+            "capability": "review"
+          },
+          {
+            "key": "verified",
+            "label": "Verified",
+            "capability": "review"
+          }
+        ],
+        "longFields": [
+          "checklist",
+          "notes"
+        ],
+        "pack": "commercial"
+      }
+    },
+    {
+      "type": "assets_meters",
+      "name": "Meter readings",
+      "kind": "register",
+      "description": "Run hours, cycles and levels, which drive maintenance by use and the reports.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "meter",
+          "label": "Meter",
+          "type": "select",
+          "options": [
+            "Run hours",
+            "Electricity (kWh)",
+            "Water consumption (kL)",
+            "Chilled water temperature (C)"
+          ]
+        },
+        {
+          "key": "value",
+          "label": "Reading",
+          "type": "number",
+          "required": true
+        },
+        {
+          "key": "read_on",
+          "label": "Read on",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "read_by",
+          "label": "Read by",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "asset_id",
+        "listFields": [
+          "read_on",
+          "asset_id",
+          "meter",
+          "value",
+          "read_by"
+        ],
+        "defaultSort": "read_on",
+        "pack": "commercial"
+      }
+    },
+    {
+      "type": "assets_library",
+      "name": "Maintenance task library",
+      "kind": "register",
+      "description": "The maintenance each type of asset needs. A new asset's plans are proposed from it, and a person confirms them.",
+      "fields": [
+        {
+          "key": "asset_type",
+          "label": "Asset type",
+          "type": "select",
+          "options": [
+            "Chiller",
+            "Cooling tower",
+            "Air handling unit",
+            "Fan coil units",
+            "VRF system",
+            "Lift",
+            "Escalator",
+            "Building management system",
+            "DG set",
+            "Transformer",
+            "HT/LT panel",
+            "UPS",
+            "Fire pump",
+            "Fire alarm system",
+            "Sprinklers",
+            "Fire extinguishers",
+            "CCTV",
+            "Access control",
+            "Sewage treatment plant",
+            "Water treatment plant",
+            "Booster pump",
+            "Facade and glazing",
+            "Car park equipment",
+            "Building and roof",
+            "Other"
+          ]
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "trigger",
+          "label": "Trigger",
+          "type": "select",
+          "options": [
+            "Time",
+            "Usage",
+            "Statutory"
+          ]
+        },
+        {
+          "key": "every",
+          "label": "Every",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "type": "select",
+          "options": [
+            "Days",
+            "Weeks",
+            "Months",
+            "Years",
+            "Run hours",
+            "Cycles",
+            "Placements"
+          ]
+        },
+        {
+          "key": "lead_days",
+          "label": "Raise this many days ahead",
+          "type": "number"
+        },
+        {
+          "key": "wo_type",
+          "label": "Work order type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "task",
+        "listFields": [
+          "asset_type",
+          "task",
+          "trigger",
+          "every",
+          "unit",
+          "lead_days"
+        ],
+        "defaultSort": "asset_type",
+        "longFields": [
+          "checklist"
+        ],
+        "pack": "commercial"
+      }
+    },
+    {
+      "type": "assets_amc_renewals",
+      "name": "AMC renewals",
+      "kind": "workflow",
+      "description": "Each AMC contract from 60 days before it expires: quotes, the committee's decision and the new contract.",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Contract",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "vendor",
+          "label": "Current vendor",
+          "type": "text"
+        },
+        {
+          "key": "assets",
+          "label": "Asset IDs covered",
+          "type": "text"
+        },
+        {
+          "key": "scope",
+          "label": "Scope",
+          "type": "text"
+        },
+        {
+          "key": "current_expiry",
+          "label": "Current expiry",
+          "type": "date"
+        },
+        {
+          "key": "current_value",
+          "label": "Current annual value",
+          "type": "currency"
+        },
+        {
+          "key": "incumbent_quote",
+          "label": "Current vendor's renewal quote",
+          "type": "currency"
+        },
+        {
+          "key": "alt_vendor_1",
+          "label": "Alternative vendor 1",
+          "type": "text"
+        },
+        {
+          "key": "alt_quote_1",
+          "label": "Alternative quote 1",
+          "type": "currency"
+        },
+        {
+          "key": "alt_vendor_2",
+          "label": "Alternative vendor 2",
+          "type": "text"
+        },
+        {
+          "key": "alt_quote_2",
+          "label": "Alternative quote 2",
+          "type": "currency"
+        },
+        {
+          "key": "price_change_pct",
+          "label": "Renewal price change (%)",
+          "type": "number"
+        },
+        {
+          "key": "lowest_quote",
+          "label": "Lowest quote",
+          "type": "text"
+        },
+        {
+          "key": "late_work_orders_12m",
+          "label": "Late maintenance, last 12 months",
+          "type": "number"
+        },
+        {
+          "key": "breakdowns_12m",
+          "label": "Breakdowns, last 12 months",
+          "type": "number"
+        },
+        {
+          "key": "chosen_vendor",
+          "label": "Vendor chosen",
+          "type": "text"
+        },
+        {
+          "key": "approved_value",
+          "label": "Approved annual value",
+          "type": "currency"
+        },
+        {
+          "key": "approved_by",
+          "label": "Approved by",
+          "type": "text"
+        },
+        {
+          "key": "approved_on",
+          "label": "Approved on",
+          "type": "date"
+        },
+        {
+          "key": "new_expiry",
+          "label": "New expiry",
+          "type": "date"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "title",
+        "listFields": [
+          "title",
+          "current_expiry",
+          "current_value",
+          "incumbent_quote",
+          "chosen_vendor"
+        ],
+        "defaultSort": "current_expiry",
+        "dueField": "current_expiry",
+        "defaultLeadDays": 0,
+        "closedStages": [
+          "renewed"
+        ],
+        "stages": [
+          {
+            "key": "due",
+            "label": "Due for renewal",
+            "capability": "intake",
+            "actors": [
+              "rules"
+            ]
+          },
+          {
+            "key": "quotes",
+            "label": "Quotes collected",
+            "capability": "intake"
+          },
+          {
+            "key": "committee",
+            "label": "Management review",
+            "capability": "review"
+          },
+          {
+            "key": "approved",
+            "label": "Approved",
+            "capability": "review"
+          },
+          {
+            "key": "renewed",
+            "label": "Renewed",
+            "capability": "export"
+          }
+        ],
+        "longFields": [
+          "scope",
+          "notes"
+        ],
+        "pack": "commercial"
+      }
+    }
+  ],
+  "seed": {
+    "assets_library": [
+      {
+        "asset_type": "Chiller",
+        "task": "Daily log of pressures and temperatures",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Chiller",
+        "task": "Monthly chiller service",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 5,
+        "wo_type": "Preventive",
+        "checklist": "Check refrigerant pressures\nCheck oil level and compressor current\nInspect starter and controls\nRecord the vendor's service report"
+      },
+      {
+        "asset_type": "Chiller",
+        "task": "Annual overhaul and tube cleaning",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Cooling tower",
+        "task": "Monthly cleaning and water treatment check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Cooling tower",
+        "task": "Quarterly fill and basin cleaning",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Air handling unit",
+        "task": "Monthly filter cleaning",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Air handling unit",
+        "task": "Quarterly belt, bearing and coil check",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Fan coil units",
+        "task": "Quarterly filter cleaning",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "VRF system",
+        "task": "Quarterly service",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Lift",
+        "task": "Monthly lift service",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Lift",
+        "task": "Lift licence renewal",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 45,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Escalator",
+        "task": "Monthly escalator service",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive",
+        "checklist": "Check steps, combs and handrails\nTest emergency stops\nCheck drive chain and brake"
+      },
+      {
+        "asset_type": "Escalator",
+        "task": "Escalator licence renewal",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 45,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Building management system",
+        "task": "Monthly alarm and trend review",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Building management system",
+        "task": "Quarterly sensor calibration check",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "DG set",
+        "task": "Weekly run under load",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "DG set",
+        "task": "DG service by run hours",
+        "trigger": "Usage",
+        "every": 250,
+        "unit": "Run hours",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "DG set",
+        "task": "Emission and noise compliance check",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Transformer",
+        "task": "Transformer oil test and inspection",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "HT/LT panel",
+        "task": "Thermal scan",
+        "trigger": "Time",
+        "every": 6,
+        "unit": "Months",
+        "lead_days": 14,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "HT/LT panel",
+        "task": "Electrical installation inspection",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "UPS",
+        "task": "Quarterly UPS and battery check",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Fire pump",
+        "task": "Weekly fire pump run",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Fire pump",
+        "task": "Fire NOC renewal",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 60,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Fire alarm system",
+        "task": "Quarterly fire alarm test",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Sprinklers",
+        "task": "Quarterly sprinkler inspection",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Fire extinguishers",
+        "task": "Monthly extinguisher check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Fire extinguishers",
+        "task": "Annual refill and pressure test",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "CCTV",
+        "task": "Quarterly CCTV check",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Access control",
+        "task": "Quarterly access control check",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Sewage treatment plant",
+        "task": "Daily operation log",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Sewage treatment plant",
+        "task": "Pollution board consent renewal",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 60,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Water treatment plant",
+        "task": "Monthly service and water test",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Booster pump",
+        "task": "Monthly pump check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Facade and glazing",
+        "task": "Facade cleaning and inspection",
+        "trigger": "Time",
+        "every": 6,
+        "unit": "Months",
+        "lead_days": 14,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Car park equipment",
+        "task": "Quarterly boom barrier and ticketing service",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Building and roof",
+        "task": "Pre-monsoon roof and drain inspection",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Inspection"
+      }
+    ]
+  },
+  "forge": {
+    "homePanels": true,
+    "homeCard": false,
+    "daily": true,
+    "onInstall": false
+  }
+}

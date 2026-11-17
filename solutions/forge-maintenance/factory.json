@@ -1,0 +1,1089 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "assets_factory",
+  "name": "Forge Maintenance: Factory",
+  "version": "1.1",
+  "description": "For a shop floor, from packaging lines to electronics assembly: production machines, utilities and statutory equipment, with maintenance by time, run hours and counts, and breakdowns recorded consistently.",
+  "family": "assets",
+  "familyName": null,
+  "variant": "Factory",
+  "apps": [
+    {
+      "type": "assets_register",
+      "name": "Assets",
+      "kind": "register",
+      "description": "Every maintained asset: where it is, how critical it is, and its AMC.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "Screen printer",
+            "Solder paste inspection",
+            "Pick-and-place",
+            "Reflow oven",
+            "AOI",
+            "Wave soldering machine",
+            "In-circuit tester",
+            "Functional tester",
+            "Screwdriving station",
+            "Packing machine",
+            "Nitrogen generator",
+            "Air receiver",
+            "EOT crane",
+            "Clean area air conditioning",
+            "Filler",
+            "Capper",
+            "Labeller",
+            "Case packer",
+            "Conveyor",
+            "Air compressor",
+            "Chiller",
+            "Boiler",
+            "DG set",
+            "Pump",
+            "Electrical panel",
+            "Other"
+          ]
+        },
+        {
+          "key": "location",
+          "label": "Location (Site > line > machine)",
+          "type": "text"
+        },
+        {
+          "key": "criticality",
+          "label": "Criticality",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "In service",
+            "Standby",
+            "Under repair",
+            "Retired"
+          ]
+        },
+        {
+          "key": "make_model",
+          "label": "Make and model",
+          "type": "text"
+        },
+        {
+          "key": "serial",
+          "label": "Serial number",
+          "type": "text"
+        },
+        {
+          "key": "owner",
+          "label": "Responsible",
+          "type": "text"
+        },
+        {
+          "key": "amc_vendor",
+          "label": "AMC vendor",
+          "type": "text"
+        },
+        {
+          "key": "amc_expiry",
+          "label": "AMC expiry",
+          "type": "date"
+        },
+        {
+          "key": "installed_on",
+          "label": "Installed on",
+          "type": "date"
+        },
+        {
+          "key": "specifications",
+          "label": "Specifications",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "name",
+        "listFields": [
+          "asset_id",
+          "name",
+          "type",
+          "location",
+          "criticality",
+          "status",
+          "amc_expiry"
+        ],
+        "defaultSort": "asset_id",
+        "dueField": "amc_expiry",
+        "defaultLeadDays": 60,
+        "statusField": "status",
+        "closedValues": [
+          "Retired"
+        ],
+        "longFields": [
+          "specifications",
+          "notes"
+        ],
+        "pack": "factory"
+      }
+    },
+    {
+      "type": "assets_plans",
+      "name": "Maintenance plans",
+      "kind": "register",
+      "description": "Each recurring task on each asset: how often, how far ahead, and when it is next due.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "trigger",
+          "label": "Trigger",
+          "type": "select",
+          "options": [
+            "Time",
+            "Usage",
+            "Statutory"
+          ]
+        },
+        {
+          "key": "every",
+          "label": "Every",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "type": "select",
+          "options": [
+            "Days",
+            "Weeks",
+            "Months",
+            "Years",
+            "Run hours",
+            "Cycles",
+            "Placements"
+          ]
+        },
+        {
+          "key": "lead_days",
+          "label": "Raise this many days ahead",
+          "type": "number"
+        },
+        {
+          "key": "wo_type",
+          "label": "Work order type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "assignee",
+          "label": "Assignee",
+          "type": "text"
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "Proposed",
+            "Active",
+            "Paused"
+          ]
+        },
+        {
+          "key": "last_done",
+          "label": "Last done",
+          "type": "date"
+        },
+        {
+          "key": "last_reading",
+          "label": "Meter reading when last done",
+          "type": "number"
+        },
+        {
+          "key": "next_due",
+          "label": "Next due",
+          "type": "date"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "task",
+        "listFields": [
+          "asset_id",
+          "task",
+          "trigger",
+          "every",
+          "unit",
+          "status",
+          "next_due"
+        ],
+        "defaultSort": "next_due",
+        "longFields": [
+          "checklist",
+          "notes"
+        ],
+        "pack": "factory"
+      }
+    },
+    {
+      "type": "assets_work_orders",
+      "name": "Work orders",
+      "kind": "workflow",
+      "description": "Preventive, breakdown and inspection work, from raised to verified.",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "wo_type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Breakdown",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "due",
+          "label": "Due",
+          "type": "date"
+        },
+        {
+          "key": "assignee",
+          "label": "Assignee",
+          "type": "text"
+        },
+        {
+          "key": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        {
+          "key": "statutory",
+          "label": "Statutory",
+          "type": "bool"
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        },
+        {
+          "key": "result",
+          "label": "Inspection result",
+          "type": "select",
+          "options": [
+            "Pass",
+            "Fail"
+          ]
+        },
+        {
+          "key": "failure_code",
+          "label": "Failure",
+          "type": "select",
+          "options": [
+            "Mechanical",
+            "Electrical",
+            "Pneumatic",
+            "Hydraulic",
+            "Control or software",
+            "Other"
+          ]
+        },
+        {
+          "key": "cause_code",
+          "label": "Cause",
+          "type": "select",
+          "options": [
+            "Wear",
+            "Missed maintenance",
+            "Misuse",
+            "Setup or changeover",
+            "Material",
+            "Unknown"
+          ]
+        },
+        {
+          "key": "reported_on",
+          "label": "Reported on",
+          "type": "date"
+        },
+        {
+          "key": "completed_on",
+          "label": "Completed on",
+          "type": "date"
+        },
+        {
+          "key": "downtime_hours",
+          "label": "Downtime (hours)",
+          "type": "number"
+        },
+        {
+          "key": "plan_id",
+          "label": "Plan reference",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "title",
+        "listFields": [
+          "title",
+          "asset_id",
+          "wo_type",
+          "due",
+          "assignee",
+          "priority"
+        ],
+        "defaultSort": "due",
+        "dueField": "due",
+        "closedStages": [
+          "done",
+          "verified"
+        ],
+        "assigneeField": "assignee",
+        "stages": [
+          {
+            "key": "raised",
+            "label": "Raised",
+            "capability": "intake",
+            "actors": [
+              "rules",
+              "person"
+            ]
+          },
+          {
+            "key": "assigned",
+            "label": "Assigned",
+            "capability": "review"
+          },
+          {
+            "key": "in_progress",
+            "label": "In progress",
+            "capability": "review"
+          },
+          {
+            "key": "done",
+            "label": "Done",
+            "capability": "review"
+          },
+          {
+            "key": "verified",
+            "label": "Verified",
+            "capability": "review"
+          }
+        ],
+        "longFields": [
+          "checklist",
+          "notes"
+        ],
+        "pack": "factory"
+      }
+    },
+    {
+      "type": "assets_meters",
+      "name": "Meter readings",
+      "kind": "register",
+      "description": "Run hours, cycles and levels, which drive maintenance by use and the reports.",
+      "fields": [
+        {
+          "key": "asset_id",
+          "label": "Asset ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "meter",
+          "label": "Meter",
+          "type": "select",
+          "options": [
+            "Run hours",
+            "Cycles",
+            "Placements",
+            "Output (units)",
+            "Pressure (bar)",
+            "Oxygen (ppm)"
+          ]
+        },
+        {
+          "key": "value",
+          "label": "Reading",
+          "type": "number",
+          "required": true
+        },
+        {
+          "key": "read_on",
+          "label": "Read on",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "read_by",
+          "label": "Read by",
+          "type": "text"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "asset_id",
+        "listFields": [
+          "read_on",
+          "asset_id",
+          "meter",
+          "value",
+          "read_by"
+        ],
+        "defaultSort": "read_on",
+        "pack": "factory"
+      }
+    },
+    {
+      "type": "assets_library",
+      "name": "Maintenance task library",
+      "kind": "register",
+      "description": "The maintenance each type of asset needs. A new asset's plans are proposed from it, and a person confirms them.",
+      "fields": [
+        {
+          "key": "asset_type",
+          "label": "Asset type",
+          "type": "select",
+          "options": [
+            "Screen printer",
+            "Solder paste inspection",
+            "Pick-and-place",
+            "Reflow oven",
+            "AOI",
+            "Wave soldering machine",
+            "In-circuit tester",
+            "Functional tester",
+            "Screwdriving station",
+            "Packing machine",
+            "Nitrogen generator",
+            "Air receiver",
+            "EOT crane",
+            "Clean area air conditioning",
+            "Filler",
+            "Capper",
+            "Labeller",
+            "Case packer",
+            "Conveyor",
+            "Air compressor",
+            "Chiller",
+            "Boiler",
+            "DG set",
+            "Pump",
+            "Electrical panel",
+            "Other"
+          ]
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "trigger",
+          "label": "Trigger",
+          "type": "select",
+          "options": [
+            "Time",
+            "Usage",
+            "Statutory"
+          ]
+        },
+        {
+          "key": "every",
+          "label": "Every",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "type": "select",
+          "options": [
+            "Days",
+            "Weeks",
+            "Months",
+            "Years",
+            "Run hours",
+            "Cycles",
+            "Placements"
+          ]
+        },
+        {
+          "key": "lead_days",
+          "label": "Raise this many days ahead",
+          "type": "number"
+        },
+        {
+          "key": "wo_type",
+          "label": "Work order type",
+          "type": "select",
+          "options": [
+            "Preventive",
+            "Inspection"
+          ]
+        },
+        {
+          "key": "checklist",
+          "label": "Checklist",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "task",
+        "listFields": [
+          "asset_type",
+          "task",
+          "trigger",
+          "every",
+          "unit",
+          "lead_days"
+        ],
+        "defaultSort": "asset_type",
+        "longFields": [
+          "checklist"
+        ],
+        "pack": "factory"
+      }
+    },
+    {
+      "type": "assets_amc_renewals",
+      "name": "AMC renewals",
+      "kind": "workflow",
+      "description": "Each AMC contract from 60 days before it expires: quotes, the committee's decision and the new contract.",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Contract",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "vendor",
+          "label": "Current vendor",
+          "type": "text"
+        },
+        {
+          "key": "assets",
+          "label": "Asset IDs covered",
+          "type": "text"
+        },
+        {
+          "key": "scope",
+          "label": "Scope",
+          "type": "text"
+        },
+        {
+          "key": "current_expiry",
+          "label": "Current expiry",
+          "type": "date"
+        },
+        {
+          "key": "current_value",
+          "label": "Current annual value",
+          "type": "currency"
+        },
+        {
+          "key": "incumbent_quote",
+          "label": "Current vendor's renewal quote",
+          "type": "currency"
+        },
+        {
+          "key": "alt_vendor_1",
+          "label": "Alternative vendor 1",
+          "type": "text"
+        },
+        {
+          "key": "alt_quote_1",
+          "label": "Alternative quote 1",
+          "type": "currency"
+        },
+        {
+          "key": "alt_vendor_2",
+          "label": "Alternative vendor 2",
+          "type": "text"
+        },
+        {
+          "key": "alt_quote_2",
+          "label": "Alternative quote 2",
+          "type": "currency"
+        },
+        {
+          "key": "price_change_pct",
+          "label": "Renewal price change (%)",
+          "type": "number"
+        },
+        {
+          "key": "lowest_quote",
+          "label": "Lowest quote",
+          "type": "text"
+        },
+        {
+          "key": "late_work_orders_12m",
+          "label": "Late maintenance, last 12 months",
+          "type": "number"
+        },
+        {
+          "key": "breakdowns_12m",
+          "label": "Breakdowns, last 12 months",
+          "type": "number"
+        },
+        {
+          "key": "chosen_vendor",
+          "label": "Vendor chosen",
+          "type": "text"
+        },
+        {
+          "key": "approved_value",
+          "label": "Approved annual value",
+          "type": "currency"
+        },
+        {
+          "key": "approved_by",
+          "label": "Approved by",
+          "type": "text"
+        },
+        {
+          "key": "approved_on",
+          "label": "Approved on",
+          "type": "date"
+        },
+        {
+          "key": "new_expiry",
+          "label": "New expiry",
+          "type": "date"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "title",
+        "listFields": [
+          "title",
+          "current_expiry",
+          "current_value",
+          "incumbent_quote",
+          "chosen_vendor"
+        ],
+        "defaultSort": "current_expiry",
+        "dueField": "current_expiry",
+        "defaultLeadDays": 0,
+        "closedStages": [
+          "renewed"
+        ],
+        "stages": [
+          {
+            "key": "due",
+            "label": "Due for renewal",
+            "capability": "intake",
+            "actors": [
+              "rules"
+            ]
+          },
+          {
+            "key": "quotes",
+            "label": "Quotes collected",
+            "capability": "intake"
+          },
+          {
+            "key": "committee",
+            "label": "Management review",
+            "capability": "review"
+          },
+          {
+            "key": "approved",
+            "label": "Approved",
+            "capability": "review"
+          },
+          {
+            "key": "renewed",
+            "label": "Renewed",
+            "capability": "export"
+          }
+        ],
+        "longFields": [
+          "scope",
+          "notes"
+        ],
+        "pack": "factory"
+      }
+    }
+  ],
+  "seed": {
+    "assets_library": [
+      {
+        "asset_type": "Screen printer",
+        "task": "Stencil and squeegee cleaning",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Solder paste inspection",
+        "task": "SPI calibration",
+        "trigger": "Time",
+        "every": 14,
+        "unit": "Days",
+        "lead_days": 2,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Pick-and-place",
+        "task": "Nozzle cleaning and feeder check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Preventive",
+        "checklist": "Clean nozzles in the ultrasonic cleaner\nReplace chipped or worn nozzles\nCheck nozzle vacuum, about minus 78 kPa\nCheck feeder pitch and pick position"
+      },
+      {
+        "asset_type": "Pick-and-place",
+        "task": "Replace head nozzles",
+        "trigger": "Usage",
+        "every": 2000000,
+        "unit": "Placements",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Reflow oven",
+        "task": "Thermal profile check",
+        "trigger": "Time",
+        "every": 14,
+        "unit": "Days",
+        "lead_days": 2,
+        "wo_type": "Inspection",
+        "checklist": "Run the profiling board at production speed\nZone 5 within 245 C plus or minus 3\nRecord each zone's reading"
+      },
+      {
+        "asset_type": "AOI",
+        "task": "Calibration with golden board",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Wave soldering machine",
+        "task": "Daily cleaning at the start of shift B",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Preventive",
+        "checklist": "Skim dross from the solder pot\nCheck solder level\nClean the finger conveyor\nTest the flux nozzles\nPot temperature 255 C plus or minus 3"
+      },
+      {
+        "asset_type": "In-circuit tester",
+        "task": "Fixture probe inspection",
+        "trigger": "Time",
+        "every": 14,
+        "unit": "Days",
+        "lead_days": 2,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Functional tester",
+        "task": "Fixture check",
+        "trigger": "Time",
+        "every": 14,
+        "unit": "Days",
+        "lead_days": 2,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Screwdriving station",
+        "task": "Torque calibration",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Packing machine",
+        "task": "Monthly service",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Nitrogen generator",
+        "task": "Pre-filter change",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Air receiver",
+        "task": "Pressure test",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "EOT crane",
+        "task": "Monthly crane inspection",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "EOT crane",
+        "task": "Load test and examination",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Clean area air conditioning",
+        "task": "Monthly filter cleaning",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Filler",
+        "task": "Daily clean, inspect and lubricate",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection",
+        "checklist": "Clean product contact parts\nCheck nozzles and seals\nLubricate as per the chart"
+      },
+      {
+        "asset_type": "Filler",
+        "task": "Replace seals",
+        "trigger": "Usage",
+        "every": 2000,
+        "unit": "Run hours",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Capper",
+        "task": "Daily clean, inspect and lubricate",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Capper",
+        "task": "Lubricate gearbox",
+        "trigger": "Usage",
+        "every": 500,
+        "unit": "Run hours",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Labeller",
+        "task": "Weekly clean and adjust",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Case packer",
+        "task": "Monthly inspection",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Conveyor",
+        "task": "Check belt tension and alignment",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Weeks",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Conveyor",
+        "task": "Replace belt",
+        "trigger": "Time",
+        "every": 12,
+        "unit": "Months",
+        "lead_days": 30,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Air compressor",
+        "task": "Drain moisture and check pressure",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Air compressor",
+        "task": "Change filters",
+        "trigger": "Usage",
+        "every": 2000,
+        "unit": "Run hours",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Chiller",
+        "task": "Quarterly service",
+        "trigger": "Time",
+        "every": 3,
+        "unit": "Months",
+        "lead_days": 7,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Boiler",
+        "task": "Daily water and blowdown check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Days",
+        "lead_days": 0,
+        "wo_type": "Inspection"
+      },
+      {
+        "asset_type": "Boiler",
+        "task": "Boiler certificate renewal",
+        "trigger": "Statutory",
+        "every": 1,
+        "unit": "Years",
+        "lead_days": 60,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "DG set",
+        "task": "DG service by run hours",
+        "trigger": "Usage",
+        "every": 250,
+        "unit": "Run hours",
+        "lead_days": 0,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Pump",
+        "task": "Monthly pump check",
+        "trigger": "Time",
+        "every": 1,
+        "unit": "Months",
+        "lead_days": 3,
+        "wo_type": "Preventive"
+      },
+      {
+        "asset_type": "Electrical panel",
+        "task": "Thermal scan",
+        "trigger": "Time",
+        "every": 6,
+        "unit": "Months",
+        "lead_days": 14,
+        "wo_type": "Preventive"
+      }
+    ]
+  },
+  "forge": {
+    "homePanels": true,
+    "homeCard": false,
+    "daily": true,
+    "onInstall": false
+  }
+}

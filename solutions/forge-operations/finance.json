@@ -1,0 +1,322 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "operations-finance",
+  "name": "Forge Operations: Finance",
+  "version": "1.0",
+  "description": "Bank statements classified to your chart of accounts, and vendors onboarded with their PAN, GSTIN and bank details checked.",
+  "family": "operations",
+  "familyName": "Forge Operations",
+  "variant": null,
+  "apps": [
+    {
+      "type": "statement_classifier",
+      "name": "Bank statement classifier",
+      "kind": "workflow",
+      "description": "Upload a bank statement and every transaction is listed and sorted into an account from the chart of accounts.",
+      "fields": [
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "amount",
+          "label": "Amount",
+          "type": "currency",
+          "required": true
+        },
+        {
+          "key": "direction",
+          "label": "Direction",
+          "type": "select",
+          "options": [
+            "Debit",
+            "Credit"
+          ]
+        },
+        {
+          "key": "account",
+          "label": "Account",
+          "type": "select",
+          "options": [
+            "Sales revenue",
+            "Interest income",
+            "Other income",
+            "Purchases / COGS",
+            "Rent",
+            "Salaries & wages",
+            "Staff welfare",
+            "Professional fees",
+            "Bank charges",
+            "GST payable",
+            "TDS payable",
+            "PF & ESI",
+            "Electricity & utilities",
+            "Telephone & internet",
+            "Office supplies",
+            "Travel & conveyance",
+            "Vehicle & fuel",
+            "Repairs & maintenance",
+            "Insurance",
+            "Advertising & marketing",
+            "Loan repayment",
+            "Owner's drawings",
+            "Cash withdrawal",
+            "Unclassified"
+          ]
+        },
+        {
+          "key": "source",
+          "label": "Classified by",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "kind": "statement_classifier",
+        "rules": [
+          {
+            "contains": "SALARY",
+            "account": "Salaries & wages"
+          },
+          {
+            "contains": "RENT",
+            "account": "Rent"
+          },
+          {
+            "contains": "GST",
+            "account": "GST payable"
+          },
+          {
+            "contains": "TDS",
+            "account": "TDS payable"
+          },
+          {
+            "contains": "EPFO",
+            "account": "PF & ESI"
+          },
+          {
+            "contains": "PF PAYMENT",
+            "account": "PF & ESI"
+          },
+          {
+            "contains": "BESCOM",
+            "account": "Electricity & utilities"
+          },
+          {
+            "contains": "ELECTRICITY",
+            "account": "Electricity & utilities"
+          },
+          {
+            "contains": "AIRTEL",
+            "account": "Telephone & internet"
+          },
+          {
+            "contains": "BROADBAND",
+            "account": "Telephone & internet"
+          },
+          {
+            "contains": "JIO",
+            "account": "Telephone & internet"
+          },
+          {
+            "contains": "PETROL",
+            "account": "Vehicle & fuel"
+          },
+          {
+            "contains": "IOCL",
+            "account": "Vehicle & fuel"
+          },
+          {
+            "contains": "FUEL",
+            "account": "Vehicle & fuel"
+          },
+          {
+            "contains": "BANK CHARGES",
+            "account": "Bank charges"
+          },
+          {
+            "contains": "SMS CHARGES",
+            "account": "Bank charges"
+          },
+          {
+            "contains": "INSURANCE",
+            "account": "Insurance"
+          },
+          {
+            "contains": "LIC",
+            "account": "Insurance"
+          },
+          {
+            "contains": "INTEREST",
+            "account": "Interest income"
+          },
+          {
+            "contains": "CASH WITHDRAWAL",
+            "account": "Cash withdrawal"
+          },
+          {
+            "contains": "ATM",
+            "account": "Cash withdrawal"
+          },
+          {
+            "contains": "PROFESSIONAL FEES",
+            "account": "Professional fees"
+          },
+          {
+            "contains": "AUDIT",
+            "account": "Professional fees"
+          }
+        ],
+        "guidance": "Client invoice receipts (NEFT/RTGS/IMPS credits from client names or 'INV') are Sales revenue. Vendor/supplier payments are Purchases / COGS. Credits are usually income; debits are usually expenses. If genuinely unsure, use Unclassified.",
+        "stages": [
+          {
+            "key": "import",
+            "label": "Import",
+            "capability": "intake"
+          },
+          {
+            "key": "extract",
+            "label": "Extract rows",
+            "capability": "extract"
+          },
+          {
+            "key": "classify",
+            "label": "Classify",
+            "capability": "classify"
+          },
+          {
+            "key": "review",
+            "label": "Review",
+            "capability": "review"
+          },
+          {
+            "key": "export",
+            "label": "Export",
+            "capability": "export"
+          }
+        ]
+      }
+    },
+    {
+      "type": "vendor_onboard",
+      "name": "Vendor onboarding",
+      "kind": "workflow",
+      "description": "Upload a vendor's PAN, GST and Udyam certificates and a cancelled cheque. The details are read into one record, checked against each other, and the vendor moves through review to approval.",
+      "fields": [
+        {
+          "key": "legal_name",
+          "label": "Legal name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "pan",
+          "label": "PAN",
+          "type": "text"
+        },
+        {
+          "key": "gstin",
+          "label": "GSTIN",
+          "type": "text"
+        },
+        {
+          "key": "bank_acct",
+          "label": "Bank account",
+          "type": "text"
+        },
+        {
+          "key": "ifsc",
+          "label": "IFSC",
+          "type": "text"
+        },
+        {
+          "key": "bank_name",
+          "label": "Bank",
+          "type": "text"
+        },
+        {
+          "key": "udyam",
+          "label": "Udyam / MSME",
+          "type": "text"
+        },
+        {
+          "key": "category",
+          "label": "Category",
+          "type": "select",
+          "options": [
+            "Goods",
+            "Services",
+            "Contractor",
+            "Consultant",
+            "Other"
+          ]
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "Pending",
+            "Needs info",
+            "Active",
+            "Rejected"
+          ]
+        },
+        {
+          "key": "reasons",
+          "label": "Checks",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "kind": "vendor_onboard",
+        "requiredDocs": [
+          "PAN card",
+          "GST certificate",
+          "Cancelled cheque"
+        ],
+        "guidance": "Cross-check the documents: the name across PAN, GST and the cancelled cheque should be the same entity, and the GSTIN must embed the PAN (characters 3-12).",
+        "stages": [
+          {
+            "key": "intake",
+            "label": "Intake docs",
+            "capability": "intake"
+          },
+          {
+            "key": "extract",
+            "label": "Extract",
+            "capability": "extract"
+          },
+          {
+            "key": "validate",
+            "label": "Validate",
+            "capability": "validate"
+          },
+          {
+            "key": "review",
+            "label": "Review",
+            "capability": "review"
+          },
+          {
+            "key": "approve",
+            "label": "Save / approve",
+            "capability": "export"
+          }
+        ]
+      }
+    }
+  ],
+  "forge": {
+    "homePanels": false,
+    "homeCard": false,
+    "daily": false,
+    "onInstall": false
+  }
+}

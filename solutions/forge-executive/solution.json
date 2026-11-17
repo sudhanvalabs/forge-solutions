@@ -1,0 +1,384 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "executive",
+  "name": "Forge Executive",
+  "version": "1.0",
+  "description": "An AI chief of staff for a leader and their team: it follows up with each person on what they committed to, comes back when they said it should, and tells the leader whom to call when commitments keep slipping.",
+  "apps": [
+    {
+      "type": "exec_team",
+      "name": "Team",
+      "kind": "register",
+      "description": "The people the AI chief of staff follows up with, how to reach them, and whom they report to.",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "role",
+          "label": "Role",
+          "type": "text"
+        },
+        {
+          "key": "reports_to",
+          "label": "Reports to",
+          "type": "text"
+        },
+        {
+          "key": "is_leader",
+          "label": "Leader with their own chief of staff",
+          "type": "bool"
+        },
+        {
+          "key": "channel",
+          "label": "Channel",
+          "type": "select",
+          "options": [
+            "WhatsApp",
+            "Microsoft Teams",
+            "Email"
+          ]
+        },
+        {
+          "key": "phone",
+          "label": "WhatsApp number",
+          "type": "text"
+        },
+        {
+          "key": "email",
+          "label": "Email",
+          "type": "text"
+        },
+        {
+          "key": "language",
+          "label": "Language",
+          "type": "select",
+          "options": [
+            "English",
+            "Hindi",
+            "Tamil",
+            "Spanish",
+            "Other"
+          ]
+        },
+        {
+          "key": "preferred_time",
+          "label": "Best time to message",
+          "type": "text"
+        },
+        {
+          "key": "opted_in",
+          "label": "Agreed to be messaged",
+          "type": "bool"
+        },
+        {
+          "key": "active",
+          "label": "Active",
+          "type": "bool"
+        },
+        {
+          "key": "notes",
+          "label": "Notes the chief of staff keeps",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "name",
+        "listFields": [
+          "name",
+          "role",
+          "reports_to",
+          "channel",
+          "opted_in"
+        ],
+        "defaultSort": "name",
+        "longFields": [
+          "notes"
+        ]
+      }
+    },
+    {
+      "type": "exec_actions",
+      "name": "Commitments",
+      "kind": "workflow",
+      "description": "Every commitment: who owns it, when they said it would be done, and when to check in next.",
+      "fields": [
+        {
+          "key": "action_id",
+          "label": "Action ID",
+          "type": "text"
+        },
+        {
+          "key": "action",
+          "label": "Commitment",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "owner",
+          "label": "Owner",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "leader",
+          "label": "Tracked for",
+          "type": "text"
+        },
+        {
+          "key": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "Critical",
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        {
+          "key": "due",
+          "label": "Committed date",
+          "type": "date"
+        },
+        {
+          "key": "original_due",
+          "label": "First committed date",
+          "type": "date"
+        },
+        {
+          "key": "times_rescheduled",
+          "label": "Times the date moved",
+          "type": "number"
+        },
+        {
+          "key": "latest_update",
+          "label": "Latest update",
+          "type": "text"
+        },
+        {
+          "key": "waiting_on",
+          "label": "Waiting on",
+          "type": "text"
+        },
+        {
+          "key": "waiting_until",
+          "label": "Expecting it by",
+          "type": "date"
+        },
+        {
+          "key": "next_check_in",
+          "label": "Next check-in",
+          "type": "date"
+        },
+        {
+          "key": "unanswered",
+          "label": "Check-ins without a reply",
+          "type": "number"
+        },
+        {
+          "key": "last_reply",
+          "label": "Last reply",
+          "type": "date"
+        },
+        {
+          "key": "completed_on",
+          "label": "Completed on",
+          "type": "date"
+        },
+        {
+          "key": "source",
+          "label": "Source",
+          "type": "select",
+          "options": [
+            "Meeting",
+            "WhatsApp",
+            "Teams",
+            "Email",
+            "Typed in"
+          ]
+        },
+        {
+          "key": "evidence",
+          "label": "Evidence of completion",
+          "type": "text"
+        },
+        {
+          "key": "comments",
+          "label": "Comments",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "action",
+        "listFields": [
+          "action_id",
+          "action",
+          "owner",
+          "priority",
+          "due",
+          "next_check_in"
+        ],
+        "defaultSort": "next_check_in",
+        "dueField": "due",
+        "assigneeField": "owner",
+        "closedStages": [
+          "done"
+        ],
+        "stages": [
+          {
+            "key": "proposed",
+            "label": "Proposed",
+            "capability": "extract",
+            "actors": [
+              "ai",
+              "person"
+            ]
+          },
+          {
+            "key": "open",
+            "label": "Open",
+            "capability": "review",
+            "actors": [
+              "rules",
+              "person"
+            ]
+          },
+          {
+            "key": "waiting",
+            "label": "Waiting on someone",
+            "capability": "review",
+            "actors": [
+              "rules",
+              "person"
+            ]
+          },
+          {
+            "key": "escalated",
+            "label": "Escalated to the leader",
+            "capability": "review",
+            "actors": [
+              "rules"
+            ]
+          },
+          {
+            "key": "done",
+            "label": "Done",
+            "capability": "review"
+          }
+        ],
+        "longFields": [
+          "latest_update",
+          "evidence",
+          "comments"
+        ]
+      }
+    },
+    {
+      "type": "exec_checkins",
+      "name": "Check-ins",
+      "kind": "register",
+      "description": "Every follow-up sent and every reply, with what the chief of staff understood from it.",
+      "fields": [
+        {
+          "key": "action_id",
+          "label": "Action ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "person",
+          "label": "Person",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "sent_on",
+          "label": "Sent on",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "channel",
+          "label": "Channel",
+          "type": "select",
+          "options": [
+            "WhatsApp",
+            "Microsoft Teams",
+            "Email"
+          ]
+        },
+        {
+          "key": "kind",
+          "label": "Kind",
+          "type": "select",
+          "options": [
+            "Check-in",
+            "Dependency check",
+            "Due today",
+            "Overdue",
+            "Escalation to leader"
+          ]
+        },
+        {
+          "key": "message",
+          "label": "Message",
+          "type": "text"
+        },
+        {
+          "key": "reply",
+          "label": "Reply",
+          "type": "text"
+        },
+        {
+          "key": "replied_on",
+          "label": "Replied on",
+          "type": "date"
+        },
+        {
+          "key": "outcome",
+          "label": "Outcome",
+          "type": "select",
+          "options": [
+            "Update",
+            "New date",
+            "Waiting on someone",
+            "Done",
+            "Blocked",
+            "No reply"
+          ]
+        },
+        {
+          "key": "understood",
+          "label": "What the chief of staff understood",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "titleField": "action_id",
+        "listFields": [
+          "sent_on",
+          "person",
+          "action_id",
+          "kind",
+          "outcome"
+        ],
+        "defaultSort": "sent_on",
+        "longFields": [
+          "message",
+          "reply",
+          "understood"
+        ]
+      }
+    }
+  ],
+  "forge": {
+    "homePanels": true,
+    "homeCard": true,
+    "daily": false,
+    "onInstall": false
+  }
+}

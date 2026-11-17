@@ -1,0 +1,72 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "answers",
+  "name": "Forge Answers",
+  "version": "1.0",
+  "description": "An assistant on your website that answers visitors' questions from your own material, declines what the material does not cover, and passes requests for a person to your team by email.",
+  "apps": [
+    {
+      "type": "answers_tests",
+      "name": "Answer tests",
+      "kind": "register",
+      "description": "Questions visitors ask, each with the answer it should get, and how the assistant did the last time it was tested.",
+      "fields": [
+        {
+          "key": "question",
+          "label": "Question",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "expected",
+          "label": "What the answer must say",
+          "type": "text"
+        },
+        {
+          "key": "should_decline",
+          "label": "Should be declined",
+          "type": "bool"
+        },
+        {
+          "key": "result",
+          "label": "Last result",
+          "type": "select",
+          "options": [
+            "Not run",
+            "Pass",
+            "Incomplete",
+            "Fail"
+          ]
+        },
+        {
+          "key": "last_answer",
+          "label": "Last answer",
+          "type": "text"
+        },
+        {
+          "key": "last_run",
+          "label": "Last run",
+          "type": "date"
+        }
+      ],
+      "config": {
+        "titleField": "question",
+        "listFields": [
+          "question",
+          "result",
+          "last_run"
+        ],
+        "longFields": [
+          "expected",
+          "last_answer"
+        ]
+      }
+    }
+  ],
+  "forge": {
+    "homePanels": false,
+    "homeCard": false,
+    "daily": true,
+    "onInstall": true
+  }
+}

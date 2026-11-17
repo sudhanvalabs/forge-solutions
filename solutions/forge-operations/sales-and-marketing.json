@@ -1,0 +1,91 @@
+{
+  "$schema": "../../schema/solution.schema.json",
+  "key": "operations-sales",
+  "name": "Forge Operations: Sales and marketing",
+  "version": "1.0",
+  "description": "Leads captured from a sentence, moved through your stages, with the next action and its date on each one.",
+  "family": "operations",
+  "familyName": "Forge Operations",
+  "variant": null,
+  "apps": [
+    {
+      "type": "leads",
+      "name": "Leads assistant",
+      "kind": "register",
+      "description": "Keep your leads in one table, with each one's stage, next action and follow-up date, and ask about them in plain language.",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "org",
+          "label": "Organisation",
+          "type": "text"
+        },
+        {
+          "key": "contact",
+          "label": "Contact",
+          "type": "text"
+        },
+        {
+          "key": "source",
+          "label": "Source",
+          "type": "text"
+        },
+        {
+          "key": "interest",
+          "label": "Interest",
+          "type": "text"
+        },
+        {
+          "key": "stage",
+          "label": "Stage",
+          "type": "select",
+          "options": [
+            "New",
+            "Contacted",
+            "Proposal",
+            "Negotiation",
+            "Won",
+            "Lost"
+          ]
+        },
+        {
+          "key": "next_action",
+          "label": "Next action",
+          "type": "text"
+        },
+        {
+          "key": "next_action_date",
+          "label": "Follow up",
+          "type": "date"
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "text"
+        }
+      ],
+      "config": {
+        "kind": "leads",
+        "dueField": "next_action_date",
+        "statusField": "stage",
+        "doneValue": "Won",
+        "closedValues": [
+          "Won",
+          "Lost"
+        ],
+        "titleField": "name"
+      }
+    }
+  ],
+  "forge": {
+    "homePanels": false,
+    "homeCard": false,
+    "daily": false,
+    "onInstall": false
+  }
+}
